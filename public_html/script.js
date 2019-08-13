@@ -17,6 +17,8 @@ var ship = new Ship();
 ship.ship_x = CENTER_WIDTH;
 ship.ship_y = CENTER_HEIGHT;
 
+var asteroid = new Asteroid();
+
 document.addEventListener('keydown', KeyDownHandler, false);
 document.addEventListener('keyup', KeyUpHandler, false);
 
@@ -52,6 +54,7 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     ship.draw(ctx);
+    asteroid.draw(ctx);
 
     if(rightPressed) {
     
