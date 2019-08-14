@@ -2,20 +2,58 @@ function Asteroid() {
     
     this.x = 100;
     this.y = 100;
-    this.points_l1 = [ [0, 0], [20, 0], [30, -15], [35, -35], [20, -45], 
-        [0, -45], [-15, -25], [-10, -10], [0, 0] ];
+    this.size = 3;
+    this.type = Math.round(Math.random());
+    this.angle = 0;
+    this.move_angle = Math.floor(Math.random() * 360);
+    this.velocity = 0.3;
+    
+    this.points = [ [180, 25], [270, 25], [0, 25], [90, 25] ];
     
     this.draw = function(ctx) {
         
-        ctx.beginPath();
-        ctx.moveTo(this.asteroid_x, this.asteroid_y);
+        var current_x = this.x + Math.sin((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
+        var current_y = this.y + Math.cos((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
         
-        for(var i = 0; i < this.points_l1.length; i++) {
+        ctx.beginPath();
+        ctx.moveTo(current_x, current_y);
+        
+        for(var i = 0; i < this.points.length; i++) {
             
-            ctx.lineTo(this.x + this.points_l1[i][0], this.y + this.points_l1[i][1]);
+            current_x += Math.sin((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
+            current_y += Math.cos((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
+            ctx.lineTo(current_x, current_y);
         }
         
         ctx.strokeStyle = 'rgb(255, 255, 255)';
         ctx.stroke();
-    }
+        
+        this.turn(-2);
+        this.move();
+    };
+    
+    this.turn = function(angle) {
+        
+        var n_angle = this.angle + angle;
+
+        if(n_angle > 359) {
+
+            this.angle = n_angle - 360;
+            return;
+        }
+
+        if(n_angle < 0) {
+
+            this.angle = 360 + n_angle;
+            return;
+        }
+
+        this.angle = n_angle;
+    };
+    
+    this.move = function() {
+        
+        this.x += Math.sin(this.move_angle * Math.PI / 180) * this.velocity;
+        this.y += Math.cos(this.move_angle * Math.PI / 180) * this.velocity;
+    };
 }

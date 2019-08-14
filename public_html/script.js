@@ -12,6 +12,9 @@ canvas.height = HEIGHT;
 
 var rightPressed = false;
 var leftPressed = false;
+var upPressed = false;
+var downPressed = false;
+var spacePressed = false;
 
 var ship = new Ship();
 ship.ship_x = CENTER_WIDTH;
@@ -24,27 +27,57 @@ document.addEventListener('keyup', KeyUpHandler, false);
 
 function KeyDownHandler(e) {
     
-    if(e.key == 'Right' || e.key == 'ArrowRight') {
+    if(e.key === 'Right' || e.key === 'ArrowRight') {
 
         rightPressed = true;
     }
 
-    if(e.key == 'Left' || e.key == 'ArrowLeft') {
+    if(e.key === 'Left' || e.key === 'ArrowLeft') {
 
         leftPressed = true;
+    }
+    
+    if(e.key === 'Up' || e.key === 'ArrowUp') {
+        
+        upPressed = true;
+    }
+    
+    if(e.key === 'Down' || e.key === 'ArrowDown') {
+        
+        downPressed = true;
+    }
+    
+    if(e.key === 'Space') {
+        
+        spacePressed = true;
     }
 }
 
 function KeyUpHandler(e) {
     
-    if(e.key == 'Right' || e.key == 'ArrowRight') {
+    if(e.key === 'Right' || e.key === 'ArrowRight') {
 
         rightPressed = false;
     }
 
-    if(e.key == 'Left' || e.key == 'ArrowLeft') {
+    if(e.key === 'Left' || e.key === 'ArrowLeft') {
 
         leftPressed = false;
+    }
+    
+    if(e.key === 'Up' || e.key === 'ArrowUp') {
+        
+        upPressed = false;
+    }
+    
+    if(e.key === 'Down' || e.key === 'ArrowDown') {
+        
+        downPressed = false;
+    }
+    
+    if(e.key === 'Space') {
+        
+        spacePressed = false;
     }
 }
 
@@ -64,6 +97,16 @@ function draw() {
     if(leftPressed) {
     
         ship.turn(2);
+    }
+    
+    if(upPressed) {
+        
+        ship.move(-2);
+    }
+    
+    if(downPressed) {
+        
+        ship.move(2);
     }
 }
 
