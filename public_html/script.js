@@ -95,12 +95,19 @@ function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     ship.draw(ctx);
-    asteroid.draw(ctx);
+
+    if(asteroid.hit === false)
+        asteroid.draw(ctx);
     
     for(var i = 0; i < MAX_SHOOTS; i++) {
         
-        if(shoots[i] !== undefined)
-            shoots[i].draw(ctx);
+        if(shoots[i] !== undefined) {
+
+            if(shoots[i].x < WIDTH && shoots[i].x > 0 && shoots[i].y < HEIGHT && shoots[i].y > 0)
+                shoots[i].draw(ctx);
+
+            
+        }
     }
 
     if(rightPressed) {
@@ -139,6 +146,12 @@ function update() {
             num_shoots = 0;
         }
     }
+}
+
+function collision_shoot_asteroid(shoot, asteroid) {
+
+    //TODO: calcular colisão entre uma bala e um asteroid
+    return false;
 }
 
 setInterval(update, 10);
