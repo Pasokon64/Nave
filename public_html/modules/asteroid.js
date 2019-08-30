@@ -35,7 +35,7 @@ function Asteroid() {
             this.qtd_real_points = i + 1;
         }
         
-        ctx.strokeStyle = 'rgb(255, 255, 255)';
+        ctx.strokeStyle = this.hit ? 'rgb(255, 255, 255)' : 'rgb(255, 0, 0)';
         ctx.stroke();
         
         this.turn(-2);
