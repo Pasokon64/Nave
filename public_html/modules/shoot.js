@@ -5,6 +5,7 @@ function Shoot(parent) {
     this.angle = parent.angle;
     this.velocity = 4; 
     this.parent = parent;
+    this.hit = false;
     
     this.draw = function(ctx) {
       

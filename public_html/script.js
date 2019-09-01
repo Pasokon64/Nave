@@ -120,6 +120,7 @@ function update() {
         asteroid.draw(ctx);
 
     update_bullets();
+    update_collisions();
     console.log(shoots);
 
     if(rightPressed) {
@@ -163,23 +164,39 @@ function update_bullets() {
     // loop que itera todos os tiros presentes na tela
     for(var i = 0; i < shoots.length; i++) {
     
-        // caso o tiro ainda esteja dentro dos limites do canvas
-        if(shoots[i].x < WIDTH && shoots[i].x > 0 && shoots[i].y < HEIGHT && shoots[i].y > 0) {
+        if(shoots[i].hit) {
 
-            //desenha o objeto tiro na tela
-            shoots[i].draw(ctx);
+            shoots.splice(i, 1);
         }
         else {
 
-            // remove o tiro da lista caso ele já tenha saido para fora da tela
-            shoots.splice(i, 1);
+            // caso o tiro ainda esteja dentro dos limites do canvas
+            if(shoots[i].x < WIDTH && shoots[i].x > 0 && shoots[i].y < HEIGHT && shoots[i].y > 0) {
+
+                //desenha o objeto tiro na tela
+                shoots[i].draw(ctx);
+            }
+            else {
+
+                // remove o tiro da lista caso ele já tenha saido para fora da tela
+                shoots.splice(i, 1);
+            }
         }
+    }
+}
+
+/**
+ * Cuida dos eventos de colisão entre os elementos de gameplay
+ */
+function update_collisions() {
+
+    for(let i = 0; i < shoots.length; i++) {
 
         // caso tiro colida com asteroide
         if(collision_shoot_asteroid(shoots[i], asteroid)) {
-
+    
             asteroid.hit = true;
-            shoots.splice(i, 1);
+            shoots.hit = true;
         }
     }
 }
