@@ -196,7 +196,7 @@ function update_collisions() {
         if(collision_shoot_asteroid(shoots[i], asteroid)) {
     
             asteroid.hit = true;
-            shoots.hit = true;
+            shoots[i].hit = true;
         }
     }
 }
