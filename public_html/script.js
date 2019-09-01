@@ -185,7 +185,21 @@ function update() {
  */
 function collision_shoot_asteroid(shoot, asteroid) {
 
-    //TODO: calcular colisão entre uma bala e um asteroid
+    let sX = Math.round(asteroid.x);
+    let sY = Math.round(asteroid.y);
+    let eX = Math.round(shoot.x);
+    let eY = Math.round(shoot.y);
+    
+    // calcula a distância entre a bala e o asteroid
+    let distance = Physics.distance(sX, sY, eX, eY);
+
+    // verifica se a distância é menor que a do círculo de colisão
+    if (distance <= asteroid.circle_collision_radius) {
+
+        asteroid.hit = true;
+        shoot.hit = true;
+    }
+    
     return false;
 }
 

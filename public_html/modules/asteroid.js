@@ -8,6 +8,7 @@ function Asteroid() {
     this.move_angle = Math.floor(Math.random() * 360);
     this.velocity = 0.3;
     this.hit = false;
+    this.circle_collision_radius = 15;
     
     this.points = [ [180, 25], [270, 25], [0, 25], [90, 25] ];
     this.real_points = [];
