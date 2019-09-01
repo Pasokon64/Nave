@@ -156,17 +156,17 @@ function collision_shoot_asteroid(shoot, asteroid) {
     //TODO: calcular colisão entre uma bala e um asteroid
     for(let i = 0; i < (asteroid.real_points.length - 1); i++) {
 
-        let x1 = Number((asteroid.real_points[i][0]).toFixed());
-        let x2 = Number((asteroid.real_points[i + 1][0]).toFixed());
+        let x1 = Number((asteroid.real_points[i][0]).toFixed(1));
+        let x2 = Number((asteroid.real_points[i + 1][0]).toFixed(1));
 
-        let y1 = Number((asteroid.real_points[i][1]).toFixed());
-        let y2 = Number((asteroid.real_points[i + 1][1]).toFixed());
+        let y1 = Number((asteroid.real_points[i][1]).toFixed(1));
+        let y2 = Number((asteroid.real_points[i + 1][1]).toFixed(1));
 
         //calculando o coeficiente angular da reta
-        let ang_coefficient = Number(((y2 - y1) / (x2 - x1)).toFixed(2));
+        let ang_coefficient = Number(((y2 - y1) / (x2 - x1)).toFixed(1));
 
         //se o tiro pertencer a reta do asteroid
-        if((shoot.y - y1).toFixed(2) === (ang_coefficient * (shoot.x - x1)).toFixed(2)) {
+        if((shoot.y.toFixed(1) - y1).toFixed(2) === (ang_coefficient * (shoot.x.toFixed(1) - x1)).toFixed(2)) {
 
             return true;
         }
