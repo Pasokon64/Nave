@@ -119,24 +119,8 @@ function update() {
     if(asteroid.hit === false)
         asteroid.draw(ctx);
 
-    // loop que itera todos os tiros presentes na tela
-    for(var i = 0; i < MAX_SHOOTS; i++) {
-        
-        if(shoots[i] !== undefined) {
-
-            // caso o tiro ainda esteja dentro dos limites do canvas
-            if(shoots[i].x < WIDTH && shoots[i].x > 0 && shoots[i].y < HEIGHT && shoots[i].y > 0) {
-
-                //desenha o objeto tiro na tela
-                shoots[i].draw(ctx);
-            }
-
-            if(collision_shoot_asteroid(shoots[i], asteroid)) {
-
-                asteroid.hit = true;
-            }
-        }
-    }
+    update_bullets();
+    console.log(shoots);
 
     if(rightPressed) {
     
@@ -164,14 +148,38 @@ function update() {
         
         if(bulletTime - lastBullet > SHOOT_DELAY) {
             
-            shoots[num_shoots] = new Shoot(ship);
-            num_shoots += 1;
+            shoots.push(new Shoot(ship));
             lastBullet = bulletTime;
         }
+    }
+}
 
-        if(num_shoots >= MAX_SHOOTS) {
+/**
+ * Cuida de todos os eventos e atualizações referente as balas
+ * disparadas.
+ */
+function update_bullets() {
+    
+    // loop que itera todos os tiros presentes na tela
+    for(var i = 0; i < shoots.length; i++) {
+    
+        // caso o tiro ainda esteja dentro dos limites do canvas
+        if(shoots[i].x < WIDTH && shoots[i].x > 0 && shoots[i].y < HEIGHT && shoots[i].y > 0) {
 
-            num_shoots = 0;
+            //desenha o objeto tiro na tela
+            shoots[i].draw(ctx);
+        }
+        else {
+
+            // remove o tiro da lista caso ele já tenha saido para fora da tela
+            shoots.splice(i, 1);
+        }
+
+        // caso tiro colida com asteroide
+        if(collision_shoot_asteroid(shoots[i], asteroid)) {
+
+            asteroid.hit = true;
+            shoots.splice(i, 1);
         }
     }
 }
@@ -196,8 +204,7 @@ function collision_shoot_asteroid(shoot, asteroid) {
     // verifica se a distância é menor que a do círculo de colisão
     if (distance <= asteroid.circle_collision_radius) {
 
-        asteroid.hit = true;
-        shoot.hit = true;
+        return true;
     }
     
     return false;
