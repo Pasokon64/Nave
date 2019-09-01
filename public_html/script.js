@@ -6,9 +6,6 @@ const HEIGHT = 500;
 const CENTER_WIDTH = WIDTH / 2;
 const CENTER_HEIGHT = HEIGHT / 2;
 
-// número de tiros máximos permitidos simultaneamente
-const MAX_SHOOTS = 25;
-
 // tempo de espera mínimo entre um tiro e outro
 const SHOOT_DELAY = 100;
 
@@ -34,8 +31,9 @@ var ship = new Ship();
 ship.x = CENTER_WIDTH;
 ship.y = CENTER_HEIGHT;
 
-// criando um novo objeto asteroide
-var asteroid = new Asteroid();
+// vetor que guarda as arteroides ativos no campo
+var asteroids = [];
+asteroids.push(new Asteroid());
 
 // vetor que guarda as balas disparadas
 var shoots = [];
@@ -116,12 +114,9 @@ function update() {
     // desenha o objeto nave na tela
     ship.draw(ctx);
 
-    if(asteroid.hit === false)
-        asteroid.draw(ctx);
-
     update_bullets();
+    update_asteroids();
     update_collisions();
-    console.log(shoots);
 
     if(rightPressed) {
     
@@ -162,7 +157,7 @@ function update() {
 function update_bullets() {
     
     // loop que itera todos os tiros presentes na tela
-    for(var i = 0; i < shoots.length; i++) {
+    for(let i = 0; i < shoots.length; i++) {
     
         if(shoots[i].hit) {
 
@@ -186,17 +181,39 @@ function update_bullets() {
 }
 
 /**
- * Cuida dos eventos de colisão entre os elementos de gameplay
+ * Cuida de todos os eventos e atualizações referente aos asteroides
+ * presentes no campo de batalha.
+ */
+function update_asteroids() {
+
+    for (let i = 0; i < asteroids.length; i++) {
+
+        if (asteroids[i].hit) {
+
+            asteroids.splice(i, 1);
+        }
+        else {
+
+            asteroids[i].draw(ctx);
+        }
+    }
+}
+
+/**
+ * Cuida dos eventos de colisão entre os elementos de gameplay.
  */
 function update_collisions() {
 
     for(let i = 0; i < shoots.length; i++) {
 
-        // caso tiro colida com asteroide
-        if(collision_shoot_asteroid(shoots[i], asteroid)) {
-    
-            asteroid.hit = true;
-            shoots[i].hit = true;
+        for(let x = 0; x < asteroids.length; x++) {
+
+            // caso tiro colida com asteroide
+            if(collision_shoot_asteroid(shoots[i], asteroids[x])) {
+        
+                asteroids[x].hit = true;
+                shoots[i].hit = true;
+            }
         }
     }
 }
