@@ -27,7 +27,7 @@ var downPressed = false;
 var spacePressed = false;
 
 // criando e posicionando um objeto nave
-var ship = new Ship();
+var ship = new Ship(ctx);
 ship.x = CENTER_WIDTH;
 ship.y = CENTER_HEIGHT;
 
@@ -111,9 +111,8 @@ function update() {
     // limpa a tela para o desenho do próximo frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // desenha o objeto nave na tela
-    ship.draw(ctx);
-
+    // atualiza os objetos do cenário
+    ship.update();
     update_bullets();
     update_asteroids();
     update_collisions();
@@ -130,12 +129,12 @@ function update() {
     
     if(upPressed) {
         
-        ship.addVelocity(-0.05);
+        ship.add_velocity(-0.05);
     }
     
     if(downPressed) {
         
-        ship.addVelocity(0.05);
+        ship.add_velocity(0.05);
     }
     
     if(spacePressed) {
