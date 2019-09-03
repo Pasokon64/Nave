@@ -1,7 +1,5 @@
 class Asteroid {
 
-    x = 100;
-    y = 100;
     size = 3;
     type = Math.round(Math.random());
     angle = 0;
@@ -21,6 +19,8 @@ class Asteroid {
      */
     constructor(ctx) {
 
+        this.x = (600 * (Math.round(Math.random()) * 1)) - 50;
+        this.y = 500 * Math.random(); 
         this.ctx = ctx;
     }
 
