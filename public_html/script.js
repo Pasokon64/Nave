@@ -139,7 +139,7 @@ function update() {
     
     if(spacePressed) {
         
-        var bulletTime = new Date();
+        let bulletTime = new Date();
         
         if(bulletTime - lastBullet > SHOOT_DELAY) {
             

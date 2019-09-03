@@ -41,15 +41,15 @@ class Asteroid {
 
         this.qtd_real_points = 0;
 
-        var current_x = this.x + Math.sin((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
-        var current_y = this.y + Math.cos((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
+        let current_x = this.x + Math.sin((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
+        let current_y = this.y + Math.cos((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
 
         this.ctx.beginPath();
         this.ctx.moveTo(current_x, current_y);
 
         this.real_points[0] = [current_x, current_y];
 
-        for (var i = 0; i < this.points.length; i++) {
+        for (let i = 0; i < this.points.length; i++) {
 
             current_x += Math.sin((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
             current_y += Math.cos((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
@@ -70,7 +70,7 @@ class Asteroid {
      */
     turn(angle) {
 
-        var n_angle = this.angle + angle;
+        let n_angle = this.angle + angle;
 
         if (n_angle > 359) {
 

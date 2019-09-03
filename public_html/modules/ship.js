@@ -35,14 +35,14 @@ class Ship {
     draw() {
         
         //Calcula as coordenadas do vértice superior do triângulo
-        var head_x = (Math.sin(this.base_angle * Math.PI / 180) * this.hypo / 2) * Math.sin(this.angle * Math.PI / 180);
-        var head_y = (Math.sin(this.base_angle * Math.PI / 180) * this.hypo / 2) * Math.cos(this.angle * Math.PI / 180);
+        let head_x = (Math.sin(this.base_angle * Math.PI / 180) * this.hypo / 2) * Math.sin(this.angle * Math.PI / 180);
+        let head_y = (Math.sin(this.base_angle * Math.PI / 180) * this.hypo / 2) * Math.cos(this.angle * Math.PI / 180);
 
         //Calcula as coordenadas dos vértices inferiores do triângulo
-        var vertex1_x = this.hypo * Math.sin((this.angle + this.head_angle / 2) * Math.PI / 180);
-        var vertex1_y = this.hypo * Math.cos((this.angle + this.head_angle / 2) * Math.PI / 180);
-        var vertex2_x = this.hypo * Math.sin((this.angle - this.head_angle / 2) * Math.PI / 180);
-        var vertex2_y = this.hypo * Math.cos((this.angle - this.head_angle / 2) * Math.PI / 180);
+        let vertex1_x = this.hypo * Math.sin((this.angle + this.head_angle / 2) * Math.PI / 180);
+        let vertex1_y = this.hypo * Math.cos((this.angle + this.head_angle / 2) * Math.PI / 180);
+        let vertex2_x = this.hypo * Math.sin((this.angle - this.head_angle / 2) * Math.PI / 180);
+        let vertex2_y = this.hypo * Math.cos((this.angle - this.head_angle / 2) * Math.PI / 180);
 
         this.ctx.beginPath();
         this.ctx.moveTo(this.x - head_x, this.y - head_y),
@@ -59,7 +59,7 @@ class Ship {
      */
     turn(angle) {
         
-        var n_angle = this.angle + angle;
+        let n_angle = this.angle + angle;
 
         if(n_angle > 359) {
 
