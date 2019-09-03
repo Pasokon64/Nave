@@ -30,8 +30,6 @@ class Shoot {
 
     /**
      * Desenha o objeto tiro na tela.
-     * 
-     * @param {CanvasRenderingContext2D} ctx Contexto de renderização.
      */
     draw() {
       
