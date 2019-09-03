@@ -130,12 +130,12 @@ function update() {
     
     if(upPressed) {
         
-        ship.move(-2);
+        ship.addVelocity(-0.05);
     }
     
     if(downPressed) {
         
-        ship.move(2);
+        ship.addVelocity(0.05);
     }
     
     if(spacePressed) {

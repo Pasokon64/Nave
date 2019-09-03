@@ -6,6 +6,8 @@ function Ship() {
     this.head_angle = 40; //ângulo da parte superior do triângulo
     this.base_angle = 70; //ângulo das partes inferiores do triângulo
     this.hypo = 20; //hipotenusa do triângulo
+    this.velocity = 0;
+    this.max_velocity = 2;
     
     this.draw = function(ctx) {
         
@@ -25,6 +27,9 @@ function Ship() {
         ctx.lineTo(this.x - head_x + vertex2_x, this.y - head_y + vertex2_y);
         ctx.fillStyle = 'rgb(255, 255, 255)';
         ctx.fill();
+
+        this.slow_down();
+        this.move();
     };
     
     this.turn = function(angle) {
@@ -46,9 +51,51 @@ function Ship() {
         this.angle = n_angle;
     };
     
-    this.move = function(velocity) {
+    this.move = function() {
         
-        this.x += Math.sin(this.angle * Math.PI / 180) * velocity;
-        this.y += Math.cos(this.angle * Math.PI / 180) * velocity;
+        this.x += Math.sin(this.angle * Math.PI / 180) * this.velocity;
+        this.y += Math.cos(this.angle * Math.PI / 180) * this.velocity;
     };
+
+    this.slow_down = function() {
+        
+        if(this.velocity > 0) {
+
+            if(this.velocity - 0.01 < 0) {
+
+                this.velocity = 0;
+            }
+            else {
+    
+                this.velocity -= 0.01;
+            }
+        }
+
+        if(this.velocity < 0) {
+
+            if(this.velocity + 0.01 > 0) {
+
+                this.velocity = 0;
+            }
+            else {
+    
+                this.velocity += 0.01;
+            }
+        }
+    }
+
+    this.addVelocity = function(velocity) {
+
+        this.velocity += velocity;
+
+        if(this.velocity > 2) {
+
+            this.velocity = 2;
+        }
+
+        if(this.velocity < -2) {
+
+            this.velocity = -2;
+        }
+    }
 }
