@@ -33,7 +33,7 @@ ship.y = CENTER_HEIGHT;
 
 // vetor que guarda as arteroides ativos no campo
 var asteroids = [];
-asteroids.push(new Asteroid());
+asteroids.push(new Asteroid(ctx));
 
 // vetor que guarda as balas disparadas
 var shoots = [];
@@ -193,7 +193,7 @@ function update_asteroids() {
         }
         else {
 
-            asteroids[i].draw(ctx);
+            asteroids[i].update();
         }
     }
 }

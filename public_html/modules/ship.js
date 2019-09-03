@@ -77,7 +77,7 @@ class Ship {
     };
     
     /**
-     * Move o tiro pela tela de acordo com o ângulo do objeto que o disparou.
+     * Move o tiro pela tela de acordo com o ângulo do objeto.
      */
     move() {
         
