@@ -144,7 +144,7 @@ function update() {
         
         if(bulletTime - lastBullet > SHOOT_DELAY) {
             
-            shoots.push(new Shoot(ship));
+            shoots.push(new Shoot(ship, ctx));
             lastBullet = bulletTime;
         }
     }
@@ -169,7 +169,7 @@ function update_bullets() {
             if(shoots[i].x < WIDTH && shoots[i].x > 0 && shoots[i].y < HEIGHT && shoots[i].y > 0) {
 
                 //desenha o objeto tiro na tela
-                shoots[i].draw(ctx);
+                shoots[i].update();
             }
             else {
 
