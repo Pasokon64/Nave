@@ -9,6 +9,9 @@ const CENTER_HEIGHT = HEIGHT / 2;
 // tempo de espera mínimo entre um tiro e outro
 const SHOOT_DELAY = 100;
 
+// tempo de espera entre a geração de um asteroide para outro
+var asteroid_delay = 5000;
+
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
@@ -16,8 +19,11 @@ canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
 // armazena quando a última foi disparada para o 
-// calculo de delay entre uma bala e outra
-var lastBullet = new Date(); 
+// calculo de delay entre uma bala e outra.
+var lastBullet = new Date();
+
+// armazena quando o último asteroide foi criado
+var last_asteroid = new Date();
 
 // variáveis que guardam quais botões foram precionados
 var rightPressed = false;
@@ -116,6 +122,9 @@ function update() {
     update_bullets();
     update_asteroids();
     update_collisions();
+
+    // gera asteroides na tela
+    generate_asteroids();
 
     if(rightPressed) {
     
@@ -241,6 +250,21 @@ function collision_shoot_asteroid(shoot, asteroid) {
     }
     
     return false;
+}
+
+/**
+ * Gera asteroides periodicamente de acordo com o delay
+ * especificado.
+ */
+function generate_asteroids() {
+
+    let current_time = new Date();
+
+    if(current_time - last_asteroid >= asteroid_delay) {
+
+        asteroids.push(new Asteroid(ctx));
+        last_asteroid = current_time;
+    }
 }
 
 setInterval(update, 10);
