@@ -7,7 +7,7 @@ const CENTER_WIDTH = WIDTH / 2;
 const CENTER_HEIGHT = HEIGHT / 2;
 
 // tempo de espera mínimo entre um tiro e outro
-const SHOOT_DELAY = 100;
+const SHOOT_DELAY = 400;
 
 // tempo de espera entre a geração de um asteroide para outro
 var asteroid_delay = 500;
@@ -155,6 +155,10 @@ function update() {
             shoots.push(new Shoot(ship, ctx));
             lastBullet = bulletTime;
         }
+    }
+    else {
+
+        lastBullet = 0;
     }
 }
 
