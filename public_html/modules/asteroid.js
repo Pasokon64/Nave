@@ -20,7 +20,17 @@ class Asteroid {
     constructor(ctx) {
 
         this.x = (600 * (Math.round(Math.random()) * 1)) - 50;
-        this.y = 500 * Math.random(); 
+        this.y = 500 * Math.random();
+        
+        if (this.x > 0) {
+
+            this.move_angle = 210 + Math.random() * 120;
+        }
+        else {
+
+            this.move_angle = 30 + Math.random() * 120;
+        }
+
         this.ctx = ctx;
     }
 

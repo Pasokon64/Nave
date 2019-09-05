@@ -10,7 +10,7 @@ const CENTER_HEIGHT = HEIGHT / 2;
 const SHOOT_DELAY = 100;
 
 // tempo de espera entre a geração de um asteroide para outro
-var asteroid_delay = 5000;
+var asteroid_delay = 500;
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
