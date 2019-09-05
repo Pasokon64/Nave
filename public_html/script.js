@@ -202,7 +202,21 @@ function update_asteroids() {
         }
         else {
 
-            asteroids[i].update();
+            let max_x = WIDTH + 50;
+            let max_y = HEIGHT + 50;
+
+            let ast_x = asteroids[i].x;
+            let ast_y = asteroids[i].y;
+
+            // caso o asteroide esteja dentro dos limites
+            if (ast_x <= max_x && ast_x >= -50 && ast_y < max_y && ast_y > -50) {
+
+                asteroids[i].update();
+            }
+            else {
+
+                asteroids.splice(i, 1);
+            }
         }
     }
 }
