@@ -253,21 +253,16 @@ function update_collisions() {
  */
 function collision_shoot_asteroid(shoot, asteroid) {
 
-    let sX = Math.round(asteroid.x);
-    let sY = Math.round(asteroid.y);
-    let eX = Math.round(shoot.x);
-    let eY = Math.round(shoot.y);
+    let cX = Math.round(asteroid.x);
+    let cY = Math.round(asteroid.y);
+    let pX = Math.round(shoot.x);
+    let pY = Math.round(shoot.y);
     
-    // calcula a distância entre a bala e o asteroid
-    let distance = Physics.distance(sX, sY, eX, eY);
+    let r = Math.round(asteroid.circle_collision_radius);
 
-    // verifica se a distância é menor que a do círculo de colisão
-    if (distance <= asteroid.circle_collision_radius) {
-
-        return true;
-    }
+    let collided = Collision.pointCircle(pX, pY, cX, cY, r);
     
-    return false;
+    return collided;
 }
 
 /**

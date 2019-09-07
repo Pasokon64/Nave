@@ -16,8 +16,10 @@ class Collision {
      */
     static pointCircle(px, py, cx, cy, r) {
         
+        // distância entre o ponto e o círculo.
         let distance = Physics.distance(px, py, cx, cy);
 
+        // se distância menor que o raio do círculo, há colisão.
         return distance <= r;
     }
 }
