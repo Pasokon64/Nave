@@ -242,6 +242,15 @@ function update_collisions() {
             }
         }
     }
+
+    for(let i = 0; i < asteroids.length; i++) {
+
+        if(collision_ship_asteroid(ship, asteroids[i])) {
+
+            alert('Fim de jogo! tente novamente.');
+            location.reload();
+        }
+    }
 }
 
 /**
@@ -263,6 +272,30 @@ function collision_shoot_asteroid(shoot, asteroid) {
     let collided = Collision.pointCircle(pX, pY, cX, cY, r);
     
     return collided;
+}
+
+function collision_ship_asteroid(ship, asteroid) {
+    
+    for (let i = 0; i < (ship.real_points.length - 1); i++) {
+       
+        let sX = Math.round(ship.real_points[i][0]);
+        let sY = Math.round(ship.real_points[i][1]);
+
+        let eX = Math.round(ship.real_points[i + 1][0]);
+        let eY = Math.round(ship.real_points[i + 1][1]);
+
+        let cX = Math.round(asteroid.x);
+        let cY = Math.round(asteroid.y);
+
+        let r = asteroid.circle_collision_radius;
+
+        if(Collision.lineCircle(sX, sY, eX, eY, cX, cY, r)) {
+
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**

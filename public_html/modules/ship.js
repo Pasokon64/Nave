@@ -9,6 +9,8 @@ class Ship {
     velocity = 0;
     max_velocity = 2;
 
+    real_points = [];
+
     /**
      * Cria um novo objeto nave no cenário.
      * 
@@ -43,6 +45,11 @@ class Ship {
         let vertex1_y = this.hypo * Math.cos((this.angle + this.head_angle / 2) * Math.PI / 180);
         let vertex2_x = this.hypo * Math.sin((this.angle - this.head_angle / 2) * Math.PI / 180);
         let vertex2_y = this.hypo * Math.cos((this.angle - this.head_angle / 2) * Math.PI / 180);
+
+        this.real_points[0] = [this.x - head_x, this.y - head_y];
+        this.real_points[1] = [this.x - head_x + vertex1_x, this.y - head_y + vertex1_y];
+        this.real_points[2] = [this.x - head_x + vertex2_x, this.y - head_y + vertex2_y];
+        this.real_points[3] = [this.x - head_x, this.y - head_y];
 
         this.ctx.beginPath();
         this.ctx.moveTo(this.x - head_x, this.y - head_y),
