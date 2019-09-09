@@ -10,7 +10,7 @@ const CENTER_HEIGHT = HEIGHT / 2;
 const SHOOT_DELAY = 400;
 
 // tempo de espera entre a geração de um asteroide para outro
-var asteroid_delay = 500;
+var asteroidDelay = 500;
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -23,7 +23,7 @@ canvas.height = HEIGHT;
 var lastBullet = new Date();
 
 // armazena quando o último asteroide foi criado
-var last_asteroid = new Date();
+var lastAsteroid = new Date();
 
 // variáveis que guardam quais botões foram precionados
 var rightPressed = false;
@@ -45,7 +45,7 @@ asteroids.push(new Asteroid(ctx));
 var shoots = [];
 
 // número de balas presentes atualmente na tela
-var num_shoots = 0;
+var numShoots = 0;
 
 // adicionando eventos para quando algum botão for precionando
 document.addEventListener('keydown', KeyDownHandler, false);
@@ -119,12 +119,12 @@ function update() {
     
     // atualiza os objetos do cenário
     ship.update();
-    update_bullets();
-    update_asteroids();
-    update_collisions();
+    updateBullets();
+    updateAsteroids();
+    updateCollisions();
 
     // gera asteroides na tela
-    generate_asteroids();
+    generateAsteroids();
 
     if(rightPressed) {
     
@@ -138,12 +138,12 @@ function update() {
     
     if(upPressed) {
         
-        ship.add_velocity(-0.05);
+        ship.addVelocity(-0.05);
     }
     
     if(downPressed) {
         
-        ship.add_velocity(0.05);
+        ship.addVelocity(0.05);
     }
     
     if(spacePressed) {
@@ -166,7 +166,7 @@ function update() {
  * Cuida de todos os eventos e atualizações referente as balas
  * disparadas.
  */
-function update_bullets() {
+function updateBullets() {
     
     // loop que itera todos os tiros presentes na tela
     for(let i = 0; i < shoots.length; i++) {
@@ -196,7 +196,7 @@ function update_bullets() {
  * Cuida de todos os eventos e atualizações referente aos asteroides
  * presentes no campo de batalha.
  */
-function update_asteroids() {
+function updateAsteroids() {
 
     for (let i = 0; i < asteroids.length; i++) {
 
@@ -206,14 +206,14 @@ function update_asteroids() {
         }
         else {
 
-            let max_x = WIDTH + 50;
-            let max_y = HEIGHT + 50;
+            let maxX = WIDTH + 50;
+            let maxY = HEIGHT + 50;
 
-            let ast_x = asteroids[i].x;
-            let ast_y = asteroids[i].y;
+            let asteroidX = asteroids[i].x;
+            let asteroidY = asteroids[i].y;
 
             // caso o asteroide esteja dentro dos limites
-            if (ast_x <= max_x && ast_x >= -50 && ast_y < max_y && ast_y > -50) {
+            if (asteroidX <= maxX && asteroidX >= -50 && asteroidY < maxY && asteroidY > -50) {
 
                 asteroids[i].update();
             }
@@ -228,14 +228,14 @@ function update_asteroids() {
 /**
  * Cuida dos eventos de colisão entre os elementos de gameplay.
  */
-function update_collisions() {
+function updateCollisions() {
 
     for(let i = 0; i < shoots.length; i++) {
 
         for(let x = 0; x < asteroids.length; x++) {
 
             // caso tiro colida com asteroide
-            if(collision_shoot_asteroid(shoots[i], asteroids[x])) {
+            if(collisionShootAsteroid(shoots[i], asteroids[x])) {
         
                 asteroids[x].hit = true;
                 shoots[i].hit = true;
@@ -245,7 +245,7 @@ function update_collisions() {
 
     for(let i = 0; i < asteroids.length; i++) {
 
-        if(collision_ship_asteroid(ship, asteroids[i])) {
+        if(collisionShipAsteroid(ship, asteroids[i])) {
 
             alert('Fim de jogo! tente novamente.');
             location.reload();
@@ -260,34 +260,41 @@ function update_collisions() {
  * @param {Asteroid} asteroid asteroide no qual será verificado a colisão
  * @returns {boolean} Se bala e asteroid estão colidindo.
  */
-function collision_shoot_asteroid(shoot, asteroid) {
+function collisionShootAsteroid(shoot, asteroid) {
 
     let cX = Math.round(asteroid.x);
     let cY = Math.round(asteroid.y);
     let pX = Math.round(shoot.x);
     let pY = Math.round(shoot.y);
     
-    let r = Math.round(asteroid.circle_collision_radius);
+    let r = Math.round(asteroid.circleCollisionRadius);
 
     let collided = Collision.pointCircle(pX, pY, cX, cY, r);
     
     return collided;
 }
 
-function collision_ship_asteroid(ship, asteroid) {
+/**
+ * Calcula se nave e asteroide estão colidindo.
+ * 
+ * @param {Ship} ship Nave na qual será verificada a colisão.
+ * @param {Asteroid} asteroid Asteroide no qual será verificado a colisão.
+ * @returns {boolean} se nave e asteroide estão colidindo entre si.
+ */
+function collisionShipAsteroid(ship, asteroid) {
     
-    for (let i = 0; i < (ship.real_points.length - 1); i++) {
+    for (let i = 0; i < (ship.realPoints.length - 1); i++) {
        
-        let sX = Math.round(ship.real_points[i][0]);
-        let sY = Math.round(ship.real_points[i][1]);
+        let sX = Math.round(ship.realPoints[i][0]);
+        let sY = Math.round(ship.realPoints[i][1]);
 
-        let eX = Math.round(ship.real_points[i + 1][0]);
-        let eY = Math.round(ship.real_points[i + 1][1]);
+        let eX = Math.round(ship.realPoints[i + 1][0]);
+        let eY = Math.round(ship.realPoints[i + 1][1]);
 
         let cX = Math.round(asteroid.x);
         let cY = Math.round(asteroid.y);
 
-        let r = asteroid.circle_collision_radius;
+        let r = asteroid.circleCollisionRadius;
 
         if(Collision.lineCircle(sX, sY, eX, eY, cX, cY, r)) {
 
@@ -302,14 +309,14 @@ function collision_ship_asteroid(ship, asteroid) {
  * Gera asteroides periodicamente de acordo com o delay
  * especificado.
  */
-function generate_asteroids() {
+function generateAsteroids() {
 
-    let current_time = new Date();
+    let currentTime = new Date();
 
-    if(current_time - last_asteroid >= asteroid_delay) {
+    if(currentTime - lastAsteroid >= asteroidDelay) {
 
         asteroids.push(new Asteroid(ctx));
-        last_asteroid = current_time;
+        lastAsteroid = currentTime;
     }
 }
 

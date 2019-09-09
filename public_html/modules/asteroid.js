@@ -3,14 +3,14 @@ class Asteroid {
     size = 3;
     type = Math.round(Math.random());
     angle = 0;
-    move_angle = Math.floor(Math.random() * 360);
+    moveAngle = Math.floor(Math.random() * 360);
     velocity = 0.3;
     hit = false;
-    circle_collision_radius = 15;
+    circleCollisionRadius = 15;
 
     points = [[180, 25], [270, 25], [0, 25], [90, 25]];
-    real_points = [];
-    qtd_real_points = 0;
+    realPoints = [];
+    qtdRealPoints = 0;
 
     /**
      * Cria um novo objeto asteroide no cenário.
@@ -24,11 +24,11 @@ class Asteroid {
         
         if (this.x > 0) {
 
-            this.move_angle = 210 + Math.random() * 120;
+            this.moveAngle = 210 + Math.random() * 120;
         }
         else {
 
-            this.move_angle = 30 + Math.random() * 120;
+            this.moveAngle = 30 + Math.random() * 120;
         }
 
         this.ctx = ctx;
@@ -49,24 +49,24 @@ class Asteroid {
      */
     draw() {
 
-        this.qtd_real_points = 0;
+        this.qtdRealPoints = 0;
 
-        let current_x = this.x + Math.sin((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
-        let current_y = this.y + Math.cos((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
+        let currentX = this.x + Math.sin((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
+        let currentY = this.y + Math.cos((this.angle + 45) * Math.PI / 180) * (25 / Math.sin(45 * Math.PI / 180) / 2);
 
         this.ctx.beginPath();
-        this.ctx.moveTo(current_x, current_y);
+        this.ctx.moveTo(currentX, currentY);
 
-        this.real_points[0] = [current_x, current_y];
+        this.realPoints[0] = [currentX, currentY];
 
         for (let i = 0; i < this.points.length; i++) {
 
-            current_x += Math.sin((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
-            current_y += Math.cos((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
-            ctx.lineTo(current_x, current_y);
+            currentX += Math.sin((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
+            currentY += Math.cos((this.angle + this.points[i][0]) * Math.PI / 180) * this.points[i][1];
+            ctx.lineTo(currentX, currentY);
 
-            this.real_points[i + 1] = [current_x, current_y];
-            this.qtd_real_points = i + 1;
+            this.realPoints[i + 1] = [currentX, currentY];
+            this.qtdRealPoints = i + 1;
         }
 
         this.ctx.strokeStyle = 'rgb(255, 255, 255)';
@@ -80,21 +80,21 @@ class Asteroid {
      */
     turn(angle) {
 
-        let n_angle = this.angle + angle;
+        let nAngle = this.angle + angle;
 
-        if (n_angle > 359) {
+        if (nAngle > 359) {
 
-            this.angle = n_angle - 360;
+            this.angle = nAngle - 360;
             return;
         }
 
-        if (n_angle < 0) {
+        if (nAngle < 0) {
 
-            this.angle = 360 + n_angle;
+            this.angle = 360 + nAngle;
             return;
         }
 
-        this.angle = n_angle;
+        this.angle = nAngle;
     };
 
     /**
@@ -102,7 +102,7 @@ class Asteroid {
      */
     move() {
 
-        this.x += Math.sin(this.move_angle * Math.PI / 180) * this.velocity;
-        this.y += Math.cos(this.move_angle * Math.PI / 180) * this.velocity;
+        this.x += Math.sin(this.moveAngle * Math.PI / 180) * this.velocity;
+        this.y += Math.cos(this.moveAngle * Math.PI / 180) * this.velocity;
     };
 }

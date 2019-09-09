@@ -3,13 +3,13 @@ class Ship {
     x = 0;
     y = 0;
     angle = 0;
-    head_angle = 40; //ângulo da parte superior do triângulo
-    base_angle = 70; //ângulo das partes inferiores do triângulo
+    headAngle = 40; //ângulo da parte superior do triângulo
+    baseAngle = 70; //ângulo das partes inferiores do triângulo
     hypo = 20; //hipotenusa do triângulo
     velocity = 0;
-    max_velocity = 2;
+    maxVelocity = 2;
 
-    real_points = [];
+    realPoints = [];
 
     /**
      * Cria um novo objeto nave no cenário.
@@ -27,7 +27,7 @@ class Ship {
     update() {
 
         this.draw();
-        this.slow_down();
+        this.slowDown();
         this.move();
     }
 
@@ -37,24 +37,24 @@ class Ship {
     draw() {
         
         //Calcula as coordenadas do vértice superior do triângulo
-        let head_x = (Math.sin(this.base_angle * Math.PI / 180) * this.hypo / 2) * Math.sin(this.angle * Math.PI / 180);
-        let head_y = (Math.sin(this.base_angle * Math.PI / 180) * this.hypo / 2) * Math.cos(this.angle * Math.PI / 180);
+        let headX = (Math.sin(this.baseAngle * Math.PI / 180) * this.hypo / 2) * Math.sin(this.angle * Math.PI / 180);
+        let headY = (Math.sin(this.baseAngle * Math.PI / 180) * this.hypo / 2) * Math.cos(this.angle * Math.PI / 180);
 
         //Calcula as coordenadas dos vértices inferiores do triângulo
-        let vertex1_x = this.hypo * Math.sin((this.angle + this.head_angle / 2) * Math.PI / 180);
-        let vertex1_y = this.hypo * Math.cos((this.angle + this.head_angle / 2) * Math.PI / 180);
-        let vertex2_x = this.hypo * Math.sin((this.angle - this.head_angle / 2) * Math.PI / 180);
-        let vertex2_y = this.hypo * Math.cos((this.angle - this.head_angle / 2) * Math.PI / 180);
+        let vertex1X = this.hypo * Math.sin((this.angle + this.headAngle / 2) * Math.PI / 180);
+        let vertex1Y = this.hypo * Math.cos((this.angle + this.headAngle / 2) * Math.PI / 180);
+        let vertex2X = this.hypo * Math.sin((this.angle - this.headAngle / 2) * Math.PI / 180);
+        let vertex2Y = this.hypo * Math.cos((this.angle - this.headAngle / 2) * Math.PI / 180);
 
-        this.real_points[0] = [this.x - head_x, this.y - head_y];
-        this.real_points[1] = [this.x - head_x + vertex1_x, this.y - head_y + vertex1_y];
-        this.real_points[2] = [this.x - head_x + vertex2_x, this.y - head_y + vertex2_y];
-        this.real_points[3] = [this.x - head_x, this.y - head_y];
+        this.realPoints[0] = [this.x - headX, this.y - headY];
+        this.realPoints[1] = [this.x - headX + vertex1X, this.y - headY + vertex1Y];
+        this.realPoints[2] = [this.x - headX + vertex2X, this.y - headY + vertex2Y];
+        this.realPoints[3] = [this.x - headX, this.y - headY];
 
         this.ctx.beginPath();
-        this.ctx.moveTo(this.x - head_x, this.y - head_y),
-        this.ctx.lineTo(this.x - head_x + vertex1_x, this.y - head_y + vertex1_y);
-        this.ctx.lineTo(this.x - head_x + vertex2_x, this.y - head_y + vertex2_y);
+        this.ctx.moveTo(this.x - headX, this.y - headY),
+        this.ctx.lineTo(this.x - headX + vertex1X, this.y - headY + vertex1Y);
+        this.ctx.lineTo(this.x - headX + vertex2X, this.y - headY + vertex2Y);
         this.ctx.fillStyle = 'rgb(255, 255, 255)';
         this.ctx.fill();
     };
@@ -66,21 +66,21 @@ class Ship {
      */
     turn(angle) {
         
-        let n_angle = this.angle + angle;
+        let nAngle = this.angle + angle;
 
-        if(n_angle > 359) {
+        if(nAngle > 359) {
 
-            this.angle = n_angle - 360;
+            this.angle = nAngle - 360;
             return;
         }
 
-        if(n_angle < 0) {
+        if(nAngle < 0) {
 
-            this.angle = 360 + n_angle;
+            this.angle = 360 + nAngle;
             return;
         }
 
-        this.angle = n_angle;
+        this.angle = nAngle;
     };
     
     /**
@@ -95,7 +95,7 @@ class Ship {
     /**
      * Desacelera a nave.
      */
-    slow_down() {
+    slowDown() {
         
         if(this.velocity > 0) {
 
@@ -127,7 +127,7 @@ class Ship {
      * 
      * @param {number} velocity velocidade a ser adicionada
      */
-    add_velocity(velocity) {
+    addVelocity(velocity) {
 
         this.velocity += velocity;
 

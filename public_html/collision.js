@@ -23,14 +23,25 @@ class Collision {
         return distance <= r;
     }
 
+    /**
+     * Calcula se há colisão entre um seguimento de reta e um ponto.
+     * 
+     * @param {number} sX O eixo x do ponto inicial da reta.
+     * @param {number} sY O eixo y do ponto inicial da reta.
+     * @param {number} eX O eixo x do ponto final da reta.
+     * @param {number} eY O eixo y do ponto final da reta.
+     * @param {number} pX O eixo x do ponto.
+     * @param {number} pY O eixo y do ponto.
+     * @returns {boolean} Se há colisão entre a reta e o ponto.
+     */
     static linePoint(sX, sY, eX, eY, pX, pY) {
 
         let dist1 = Physics.distance(pX, pY, sX, sY);
         let dist2 = Physics.distance(pX, pY, eX, eY);
 
-        let line_len = Physics.distance(sX, sY, eX, eY);
+        let lineLen = Physics.distance(sX, sY, eX, eY);
 
-        if(dist1 + dist2 === line_len) {
+        if(dist1 + dist2 === lineLen) {
 
             return true;
         }
@@ -38,23 +49,34 @@ class Collision {
         return false;
     }
 
+    /**
+     * Calcula se há colisão entre um seguimento de reta e um círculo.
+     * 
+     * @param {number} sX O eixo x do ponto inicial da reta.
+     * @param {number} sY O eixo y do ponto inicial da reta.
+     * @param {number} eX O eixo x do ponto final da reta.
+     * @param {number} eY O eixo y do ponto final da reta.
+     * @param {number} cX O eixo x do círculo.
+     * @param {number} cY O eixo y do círculo.
+     * @param {number} r O raio do círculo.
+     */
     static lineCircle(sX, sY, eX, eY, cX, cY, r) {
 
         /* Calculando colisão entre as duas extremidades e o círculo */
-        let collided_p1 = this.pointCircle(sX, sY, cX, cY, r);
-        let collided_p2 = this.pointCircle(eX, eY, cX, cY, r);
+        let collidedP1 = this.pointCircle(sX, sY, cX, cY, r);
+        let collidedP2 = this.pointCircle(eX, eY, cX, cY, r);
 
-        if (collided_p1 || collided_p2) {
+        if (collidedP1 || collidedP2) {
 
             return true;
         }
 
         /* Calculando o ponto da reta mais próximo do círculo */
         // calculando comprimento da linha através do teorema de Pitágoras.
-        let line_len = Physics.distance(sX, sY, eX, eY);
+        let lineLen = Physics.distance(sX, sY, eX, eY);
 
         // calculando o produto escalar.
-        let dot = ( ((cX-sX)*(eX-sX)) + ((cY-sY)*(eY-sY)) ) / line_len**2;
+        let dot = ( ((cX-sX)*(eX-sX)) + ((cY-sY)*(eY-sY)) ) / lineLen**2;
 
         // calculando ponto mais próximo.
         let closestX = sX + (dot * (eX - sX));
