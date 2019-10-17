@@ -39,7 +39,7 @@ ship.y = CENTER_HEIGHT;
 
 // vetor que guarda as arteroides ativos no campo
 var asteroids = [];
-asteroids.push(new Asteroid(ctx));
+asteroids.push(new Asteroid(ctx, 25));
 
 // vetor que guarda as balas disparadas
 var shoots = [];
@@ -202,6 +202,47 @@ function updateAsteroids() {
 
         if (asteroids[i].hit) {
 
+            if (asteroids[i].size == 25) {
+             
+                newAsteroid1 = new Asteroid(ctx, 15);
+                newAsteroid2 = new Asteroid(ctx, 15);
+
+                newAsteroid1.x = asteroids[i].x;
+                newAsteroid1.y = asteroids[i].y;
+
+                newAsteroid2.moveAngle = addAngle(newAsteroid1.moveAngle, 180);
+
+                if (newAsteroid1.moveAngle >= 0 && newAsteroid1.moveAngle <= 90) {
+                    
+                    newAsteroid2.x = asteroids[i].x - 20;
+                    newAsteroid2.y = asteroids[i].y + 20;
+                }
+
+                if (newAsteroid1.moveAngle > 90 && newAsteroid1.moveAngle <= 180) {
+                    
+                    newAsteroid2.x = asteroids[i].x - 20;
+                    newAsteroid2.y = asteroids[i].y - 20;
+                }
+
+                if (newAsteroid1.moveAngle > 180 && newAsteroid1.moveAngle <= 270) {
+                    
+                    newAsteroid2.x = asteroids[i].x + 20;
+                    newAsteroid2.y = asteroids[i].y + 20;
+                }
+
+                if (newAsteroid1.moveAngle > 270 && newAsteroid1.moveAngle < 360) {
+                    
+                    newAsteroid2.x = asteroids[i].x + 20;
+                    newAsteroid2.y = asteroids[i].y - 20;
+                }
+
+                newAsteroid1.velocity = 0.5;
+                newAsteroid2.velocity = 0.5;
+
+                asteroids.push(newAsteroid1);
+                asteroids.push(newAsteroid2);
+            }
+
             asteroids.splice(i, 1);
         }
         else {
@@ -245,6 +286,21 @@ function updateCollisions() {
 
     for(let i = 0; i < asteroids.length; i++) {
 
+        for(let x = 0; x < asteroids.length; x++) {
+
+            // se asteroide for diferente
+            if(i !== x) {
+
+                // se asteroide colidir com outro asteroide
+                if (collisionAsteroidAsteroid(asteroids[i], asteroids[x])) {
+
+                    asteroids[i].hit = true;
+                    asteroids[x].hit = true;
+                }
+            }
+        }
+
+        // se asteroide colidir com nave
         if(collisionShipAsteroid(ship, asteroids[i])) {
 
             alert('Fim de jogo! tente novamente.');
@@ -305,6 +361,24 @@ function collisionShipAsteroid(ship, asteroid) {
     return false;
 }
 
+function collisionAsteroidAsteroid(asteroid1, asteroid2) {
+    
+    let c1X = asteroid1.x;
+    let c1Y = asteroid1.y;
+    let c1R = asteroid1.circleCollisionRadius;
+
+    let c2X = asteroid2.x;
+    let c2Y = asteroid2.y;
+    let c2R = asteroid2.circleCollisionRadius;
+
+    if(Collision.circleCircle(c1X, c1Y, c1R, c2X, c2Y, c2R)) {
+
+        return true;
+    }
+
+    return false;
+}
+
 /**
  * Gera asteroides periodicamente de acordo com o delay
  * especificado.
@@ -315,9 +389,26 @@ function generateAsteroids() {
 
     if(currentTime - lastAsteroid >= asteroidDelay) {
 
-        asteroids.push(new Asteroid(ctx));
+        asteroids.push(new Asteroid(ctx, 25));
         lastAsteroid = currentTime;
     }
 }
+
+function addAngle(angle, addValue) {
+        
+    let nAngle = angle + addValue;
+
+    if(nAngle > 359) {
+
+        return nAngle - 360;
+    }
+
+    if(nAngle < 0) {
+
+        return 360 + nAngle;
+    }
+
+    return nAngle;
+};
 
 setInterval(update, 10);

@@ -100,4 +100,16 @@ class Collision {
 
         return false;
     }
+
+    static circleCircle(c1X, c1Y, c1R, c2X, c2Y, c2R) {
+
+        let distance = Physics.distance(c1X, c1Y, c2X, c2Y);
+
+        if (distance <= (c1R + c2R)) {
+
+            return true;
+        }
+
+        return false;
+    }
 }
